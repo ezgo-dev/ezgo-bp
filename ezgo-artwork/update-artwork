@@ -6,30 +6,20 @@ change_desktop_background() {
     update-alternatives --install \
         /usr/share/images/desktop-base/desktop-background \
 	desktop-background \
-	/usr/share/images/desktop-base/ezgo12-wallpaper-2560x1600.png 80
+	/usr/share/images/desktop-base/ezgo12-wallpaper-2560x1600.png 95
     update-alternatives --install \
         /usr/share/images/desktop-base/desktop-background.xml \
 	desktop-background.xml \
 	/usr/share/images/desktop-base/ezgo-wallpaper.xml 30
 
-    for WALLPAPER in ezgo12-wallpaper-1366x768.png \
-        ezgo12-wallpaper-2560x1600.png \
-		ezgo12-wallpaper-1920x1080.png ; do
-	update-alternatives --install \
-	        /usr/share/images/desktop-base/desktop-background \
-		desktop-background \
-		/usr/share/images/desktop-base/$WALLPAPER 60
-    done
-
-	update-alternatives --install \
-		/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.png \
-		lubuntu-default-wallpaper.png \
-		/etc/alternatives/desktop-background 80
-
-	update-alternatives --install \
-		/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.jpg \
-		lubuntu-default-wallpaper.jpg \
-		/etc/alternatives/desktop-background 80
+#    for WALLPAPER in ezgo12-wallpaper-1366x768.png \
+#        ezgo12-wallpaper-2560x1600.png \
+#		ezgo12-wallpaper-1920x1080.png ; do
+#	update-alternatives --install \
+#	        /usr/share/images/desktop-base/desktop-background \
+#		desktop-background \
+#		/usr/share/images/desktop-base/$WALLPAPER 60
+#    done
 }
 
 restore_desktop_background() {
@@ -40,15 +30,12 @@ restore_desktop_background() {
 	desktop-background.xml \
 	/usr/share/images/desktop-base/ezgo-wallpaper.xml
 
-    for WALLPAPER in ezgo12-wallpaper-1366x768.png \
-        ezgo12-wallpaper-2560x1600.png \
-		ezgo12-wallpaper-1920x1080.png ; do
-	update-alternatives --remove desktop-background \
-		/usr/share/images/desktop-base/$WALLPAPER
-    done
-
-	update-alternatives --remove lubuntu-default-wallpaper.png /etc/alternatives/desktop-background
-	update-alternatives --remove lubuntu-default-wallpaper.jpg /etc/alternatives/desktop-background
+#    for WALLPAPER in ezgo12-wallpaper-1366x768.png \
+#        ezgo12-wallpaper-2560x1600.png \
+#		ezgo12-wallpaper-1920x1080.png ; do
+#	update-alternatives --remove desktop-background \
+#		/usr/share/images/desktop-base/$WALLPAPER
+#    done
 }
 
 install_default_dm_background() {

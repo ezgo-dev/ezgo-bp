@@ -2,21 +2,20 @@
 set -e
 
 # Lightdm-kde-greeter
-change_lightdm_kde_theme() {
+change_lightdm_lxde_theme() {
     if [ -d /etc/lightdm ]; then
-		if [ -f /etc/lightdm/lightdm-kde-greeter.conf ]; then
-			mv /etc/lightdm/lightdm-kde-greeter.conf /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak
+		if [ -f /etc/lightdm/lightdm-gtk-greeter.conf ]; then
+			cp -f /etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf.ezgo-bak
 		fi
-		cp -f /usr/share/kde4/apps/lightdm-kde-greeter/themes/ezgo/lightdm-kde-greeter.conf /etc/lightdm/lightdm-kde-greeter.conf.ezgo
-		ln -s /etc/lightdm/lightdm-kde-greeter.conf.ezgo /etc/lightdm/lightdm-kde-greeter.conf
+		sed -i 's/background=.\+$/background=\/etc\/alternatives\/ezgo-default-dm.png/g' /etc/lightdm/lightdm-gtk-greeter.conf
 	fi
 }
 
-restore_lightdm_kde_theme() {
+restore_lightdm_lxde_theme() {
     if [ -d /etc/lightdm ]; then
-		if [ -f /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak ]; then
-			rm -f /etc/lightdm/lightdm-kde-greeter.conf
-			mv /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak /etc/lightdm/lightdm-kde-greeter.conf
+		if [ -f /etc/lightdm/lightdm-gtk-greeter.conf.ezgo-bak ]; then
+			cp -f /etc/lightdm/lightdm-gtk-greeter.conf.ezgo-bak /etc/lightdm/lightdm-gtk-greeter.conf
+			rm -f /etc/lightdm/lightdm-gtk-greeter.conf.ezgo-bak
 		fi
 	fi
 }
@@ -40,20 +39,33 @@ change_menu_prefix() {
 
 restore_menu_prefix() {
 	if [ -e /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak ]; then
-		cp -f /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak /etc/xdg/lxsession/Lubuntu/desktop.conf
+		mv -f /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak /etc/xdg/lxsession/Lubuntu/desktop.conf
+	fi
+}
+
+change_desktop_background() {
+	cp -f /etc/xdg/pcmanfm/lubuntu/pcmanfm.conf /usr/share/ezgo/ezgo-lxde/pcmanfm.conf.ezgo-bak
+	sed -i 's/wallpaper=.\+$/wallpaper=\/etc\/alternatives\/desktop-background/g' /etc/xdg/pcmanfm/lubuntu/pcmanfm.conf
+}
+
+restore_desktop_background() {
+	if [ -e /usr/share/ezgo/ezgo-lxde/pcmanfm.conf.ezgo-bak ]; then
+		mv -f /usr/share/ezgo/ezgo-lxde/pcmanfm.conf.ezgo-bak /etc/xdg/pcmanfm/lubuntu/pcmanfm.conf
 	fi
 }
 
 case "$1" in
   configure)
-#    change_lightdm_kde_theme
+    change_lightdm_lxde_theme
 #    change_ksplash
 #    change_ezgo_font_config
 	change_menu_prefix
+	change_desktop_background
     ;;
   remove)
-#    restore_lightdm_kde_theme
+    restore_lightdm_lxde_theme
 #    restore_ksplash
 	restore_menu_prefix
+	restore_desktop_background
     ;;
 esac
