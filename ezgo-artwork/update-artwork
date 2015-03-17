@@ -26,6 +26,10 @@ change_desktop_background() {
 		lubuntu-default-wallpaper.png \
 		/etc/alternatives/desktop-background 80
 
+	update-alternatives --install \
+		/usr/share/lubuntu/wallpapers/lubuntu-default-wallpaper.jpg \
+		lubuntu-default-wallpaper.jpg \
+		/etc/alternatives/desktop-background 80
 }
 
 restore_desktop_background() {
@@ -43,7 +47,8 @@ restore_desktop_background() {
 		/usr/share/images/desktop-base/$WALLPAPER
     done
 
-	update-alternatives --remove lubuntu-default-wallpaper.png
+	update-alternatives --remove lubuntu-default-wallpaper.png /etc/alternatives/desktop-background
+	update-alternatives --remove lubuntu-default-wallpaper.jpg /etc/alternatives/desktop-background
 }
 
 install_default_dm_background() {
@@ -64,14 +69,11 @@ compile_gschemas() {
 
 case "$1" in
   configure)
-    change_grub_background
     change_desktop_background
     install_default_dm_background
     compile_gschemas
     ;;
   remove)
-    restore_ldm_background
-    restore_grub_background
     restore_desktop_background
     remove_default_dm_background
     compile_gschemas
