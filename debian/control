@@ -1,0 +1,32 @@
+Source: ezgo-bp
+Section: misc
+Priority: extra
+Maintainer: Franklin Weng <franklin@goodhorse.idv.tw>
+Uploaders: Franklin Weng <franklin@goodhorse.idv.tw>
+Build-Depends: debhelper (>= 7), blends-dev (>= 0.6.91)
+Standards-Version: 3.9.3
+Dm-Upload-Allowed: yes
+Homepage: http://ezgo.westart.tw/
+Vcs-Browser: https://github.com/ezgo-dev/ezgo-bp
+Vcs-git: git@github.com:ezgo-dev/ezgo-bp.git
+
+Package: ezgo-artwork
+Architecture: all
+Description: artwork for ezgo running on banana pi
+ ezgo is a project which collects a set of free and open source software,
+ as well as many public domain tutorials.  ezgo aims to introduce the world
+ of free and open source software to those who have never heard or touched it.
+ It is also good for teaching and self-learning.
+ .
+ This package contains artwork like wallpapers for ezgo running on banana pi.
+
+Package: ezgo-lxde
+Architecture: all
+Description: lxde settings for ezgo running on banana pi
+ ezgo is a project which collects a set of free and open source software,
+ as well as many public domain tutorials.  ezgo aims to introduce the world
+ of free and open source software to those who have never heard or touched it.
+ It is also good for teaching and self-learning.
+ .
+ This package contains lxde settings for ezgo running on banana pi.
+

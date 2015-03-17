@@ -1,0 +1,59 @@
+#! /bin/sh
+set -e
+
+# Lightdm-kde-greeter
+change_lightdm_kde_theme() {
+    if [ -d /etc/lightdm ]; then
+		if [ -f /etc/lightdm/lightdm-kde-greeter.conf ]; then
+			mv /etc/lightdm/lightdm-kde-greeter.conf /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak
+		fi
+		cp -f /usr/share/kde4/apps/lightdm-kde-greeter/themes/ezgo/lightdm-kde-greeter.conf /etc/lightdm/lightdm-kde-greeter.conf.ezgo
+		ln -s /etc/lightdm/lightdm-kde-greeter.conf.ezgo /etc/lightdm/lightdm-kde-greeter.conf
+	fi
+}
+
+restore_lightdm_kde_theme() {
+    if [ -d /etc/lightdm ]; then
+		if [ -f /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak ]; then
+			rm -f /etc/lightdm/lightdm-kde-greeter.conf
+			mv /etc/lightdm/lightdm-kde-greeter.conf.ezgo-bak /etc/lightdm/lightdm-kde-greeter.conf
+		fi
+	fi
+}
+
+change_ezgo_font_config() {
+    if [ -f /usr/local/share/fonts/s/SourceHanSans-Normal.otf ]; then
+	    sed -i 's/^\(font=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(menuFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(desktopFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(toolBarFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(smallestReadableFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(taskbarFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+	    sed -i 's/^\(activeFont=\)[^,]\+/\1Source Han Sans/g' /usr/share/ezgo/ezgo-kde/kde-profile/share/config/kdeglobals /etc/skel/.kde/share/config/kdeglobals
+    fi
+}
+
+change_menu_prefix() {
+	cp -f /etc/xdg/lxsession/Lubuntu/desktop.conf /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak
+	sed -i 's/menu_prefix=lxde-/menu_prefix=ezgo-/g' /etc/xdg/lxsession/Lubuntu/desktop.conf
+}
+
+restore_menu_prefix() {
+	if [ -e /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak ]; then
+		cp -f /usr/share/ezgo/ezgo-lxde/desktop.conf.ezgo-bak /etc/xdg/lxsession/Lubuntu/desktop.conf
+	fi
+}
+
+case "$1" in
+  configure)
+#    change_lightdm_kde_theme
+#    change_ksplash
+#    change_ezgo_font_config
+	change_menu_prefix
+    ;;
+  remove)
+#    restore_lightdm_kde_theme
+#    restore_ksplash
+	restore_menu_prefix
+    ;;
+esac
